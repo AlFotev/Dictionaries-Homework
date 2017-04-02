@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DictionariesHomework_
+{
+    public class ProblemTwo
+    {
+        public static void Main()
+        {
+            var input = Console.ReadLine();
+            var dictionary = new Dictionary<string, int>();
+
+            while (input != "end")
+            {
+                var tornInput = input.Split('=');
+                var keys = tornInput[0].ToString().Trim();
+                tornInput[1] = tornInput[1].ToString().Trim();
+                int values;
+                var resultOfParse = Int32.TryParse(tornInput[1] , out values);
+
+                if (resultOfParse)
+                {
+                    if (!dictionary.ContainsKey(keys))
+                    {
+                        dictionary.Add(keys, values);
+                    }
+                    else
+                    {
+                        dictionary[keys] = values;
+                    }
+                }
+                else
+                {
+
+                    var sameKey = tornInput[1].Trim();
+                    int valueOfSameKey;
+                    if (dictionary.TryGetValue(sameKey, out valueOfSameKey))
+                    {
+                        if (!dictionary.ContainsKey(keys))
+                        {
+                            dictionary.Add(keys, 0);
+                        }
+                        dictionary[keys] = dictionary[sameKey.ToString()];
+                    }
+                                      
+                    
+
+                }
+                input = Console.ReadLine();           
+            }
+            foreach (var kvp in dictionary)
+            {
+                var key = kvp.Key;
+                var value = kvp.Value;
+                Console.WriteLine($"{key} === {value}");
+            }         
+        }
+    }
+}
