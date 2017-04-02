@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DictionariesHomework
+{
+    public class ProblemOne
+    {
+        public static void Main()
+        {
+            var word = Console.ReadLine();
+            var symbols = new Dictionary<char , int>();
+            foreach (var letter in word)
+            {
+
+                if (!symbols.ContainsKey(letter))
+                {
+                    symbols.Add(letter , 1);
+                }
+                else
+                {
+                    symbols[letter]++;
+                }
+            }
+            foreach (var kvp in symbols)
+            {
+                var symbol = kvp.Key;
+                var times = kvp.Value;
+                Console.WriteLine($"{symbol} -> {times}");
+            }
+            
+        }
+    }
+}
