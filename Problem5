@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication26
+{
+    class Program
+    {
+        static void Main()
+        {
+            // write loop for adding datebase with user - pass untill it comes "login" command
+            //with try - if there is such user and pass write... else write...
+            //add counter within else for the times that oesnt match
+            //when receive "end" command print the unsuccessfull login attempts
+
+            var input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+            var firstCommand = input[0].Trim();
+            var users = new Dictionary<string ,string>();
+
+            while (firstCommand != "end" && firstCommand != "login")
+            {
+                string pass;
+                if (!users.TryGetValue(firstCommand , out pass))
+                {
+                    var password = input[1].Trim();
+                    users.Add(firstCommand , password);
+                }
+                else
+                {
+                    users[firstCommand] = pass.Trim();
+                }
+
+                input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+                firstCommand = input[0].Trim();
+            }
+
+           
+                input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+                firstCommand = input[0].Trim();
+                var counter = 0;
+
+            while (firstCommand != "end")
+            {
+                string pass;
+                if (!users.TryGetValue(firstCommand, out pass))
+                {
+                    counter++;
+                    Console.WriteLine($"{firstCommand}: login failed");
+                }
+                else
+                {
+                    var inputPass = input[1].Trim();
+                    if (users[firstCommand] != inputPass)
+                    {
+                        counter++;
+                        Console.WriteLine($"{firstCommand}: login failed");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{firstCommand}: logged in successfully");
+                    }
+                }
+                input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+                firstCommand = input[0].Trim();
+            }
+
+            Console.WriteLine($"unsuccessful login attempts: {counter}");
+           
+
+        }
+        }
+    }
+
