@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication27
+{
+    class Program
+    {
+        static void Main()
+        {
+            //read the input and split it to array
+            //datebase is dictionary with nested dictionary with key - string and three vals
+            //write method that returns the type and the value of hte second part of input
+            //store it as proper
+            //print only the wanted parameter of nested dictionary
+
+            
+            var dateBase = new Dictionary<string, Dictionary<string, string>>();
+            var input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+            var name = input[0].Trim();
+            var agePosSal = input[1].Trim();
+
+            while (name != "filter base")
+            {
+                agePosSal = input[1].Trim();
+                int age;
+                double salary;
+                string position;
+                if (!int.TryParse(agePosSal, out age))
+                {
+                    if (!double.TryParse(agePosSal, out salary))
+                    {
+                        position = agePosSal;
+                        if (!dateBase.ContainsKey(name))
+                        {
+                            dateBase.Add(name, new Dictionary<string, string>());
+                        }
+                       
+                        dateBase[name].Add("Position", position);
+                    }
+                    else
+                    {
+                        if (!dateBase.ContainsKey(name))
+                        {
+                            dateBase.Add(name, new Dictionary<string, string>());
+                        }
+                       
+                        dateBase[name].Add("Salary", salary.ToString());
+                    }
+                }
+                else
+                {
+                    if (!dateBase.ContainsKey(name))
+                    {
+                        dateBase.Add(name, new Dictionary<string, string>());
+                    }
+                    dateBase[name].Add("Age", age.ToString());
+                }
+
+
+                input = Console.ReadLine().Split(new string[] { "->" }, StringSplitOptions.None);
+                name = input[0].Trim();
+                
+
+            }
+
+            var parameter = Console.ReadLine();
+
+            foreach (var kvp in dateBase)
+            {
+                var employee = kvp.Key;
+                //var posOfEmploye = kvp.Value["Position"];
+                //var ageOfEmploye = kvp.Value["Age"];
+                //var salOfEmploye = kvp.Value["Salary"];
+                string value;
+                if (kvp.Value.TryGetValue(parameter, out value))
+                {
+                    if (parameter == "Salary" || parameter == "Age")
+                    {
+                        Console.WriteLine($"Name: {employee}\r\n{parameter}: {Math.Round(Convert.ToDecimal(value), 2)}\r\n====================");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Name: {employee}\r\n{parameter}: {value}\r\n====================");
+                    }
+                    
+                }
+            }
+
+
+        }
+    }
+}
