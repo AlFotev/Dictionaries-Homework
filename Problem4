@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication25
+{
+    class Program
+    {
+        static void Main()
+        {
+            var input = Console.ReadLine().Split(' ').ToArray();
+            var firstCommand = input[0];
+            var inventory = new Dictionary<string, int>();
+
+            while (firstCommand != "exam")
+            {
+                
+                if (firstCommand == "stock")
+                {
+                    var stock = input[1];
+                    var quantity = int.Parse(input[2]);
+                    if (!inventory.ContainsKey(stock))
+                    {
+                        inventory.Add(stock , quantity);
+                    }
+                    else
+                    {
+                        inventory[stock] += quantity;
+                    }
+                }
+                if (firstCommand == "buy")
+                {
+                    var stock = input[1];
+                    var quantity = int.Parse(input[2]);
+                    int value;
+                    if (!inventory.TryGetValue(stock , out value))
+                    {
+                        Console.WriteLine($"{stock} doesn't exist");
+                    }
+                    else
+                    {
+                        if (inventory[stock] <= 0)
+                        {
+                            Console.WriteLine($"{stock} out of stock");
+                        }
+                        else
+                        {
+                            inventory[stock] -= quantity;
+                        }
+                        
+                }
+                                      
+                }
+                input = Console.ReadLine().Split(' ').ToArray();
+                firstCommand = input[0];
+            }
+            foreach (var kvp in inventory)
+            {
+                var stock = kvp.Key;
+                var quantity = kvp.Value;
+                if (quantity > 0)
+                {
+                    Console.WriteLine($"{stock} -> {quantity}");
+                }
+                
+            }
+            
+        }
+    }
+}
